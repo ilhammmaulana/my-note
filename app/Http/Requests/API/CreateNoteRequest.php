@@ -3,11 +3,11 @@
 namespace App\Http\Requests\API;
 
 use App\Traits\ResponseAPI;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateProfileRequest extends FormRequest
+class CreateNoteRequest extends FormRequest
 {
     use ResponseAPI;
     /**
@@ -24,21 +24,16 @@ class UpdateProfileRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
-     * 
      */
     public function rules()
     {
         return [
-            "name" => "min:3",
-            "school_id" => "min:1",
-            "photo" => "image|max:2048|mimes:png,jpg",
-            "banner" => "image|max:2048|mimes:png,jpg",
-            "phone" => "numeric|min:7",
-            "email" => "email|min:5",
+            "title" => "required|min:1",
+            "body" => "required|min:1",
         ];
     }
-    public function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->requestValidation($validator->errors()->toArray(), 'Failed!'));
+        throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors())));
     }
 }

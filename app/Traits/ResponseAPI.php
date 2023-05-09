@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
  */
 trait ResponseAPI
 {
-    public static function requestSuccessData($message, $data = [], $status = 200)
+    public static function requestSuccessData($data,  $status = 200, $message = "Success!")
     {
         return response()->json([
             "status" => $status,
@@ -17,7 +17,15 @@ trait ResponseAPI
             "data" => $data,
         ]);
     }
-    public static function requestSuccess($message, $code = 200)
+    public static function requestSuccessWithLog($log, $message = 'Success!')
+    {
+        return response()->json([
+            "status" => Response::HTTP_OK,
+            "message" => $message,
+            "log" => $log
+        ], Response::HTTP_OK);
+    }
+    public static function requestSuccess($message = 'Success!', $code = 200)
     {
         return response()->json([
             "status" => $code,
@@ -28,7 +36,7 @@ trait ResponseAPI
     {
         return response()->json([
             "status" => Response::HTTP_OK,
-            "message" => "Success!",
+            "message" => "Login Success!",
             "token" => $token,
             "data" => $dataUser
         ]);
@@ -41,7 +49,7 @@ trait ResponseAPI
             "token" => $token,
         ]);
     }
-    public static function badRequest($message = 'Failed', $error = 'bad_request')
+    public static function badRequest($error = 'bad_request', $message = 'Failed!')
     {
         return response()->json([
             "status" => Response::HTTP_BAD_REQUEST,
@@ -64,11 +72,19 @@ trait ResponseAPI
             "message" => $message,
         ], Response::HTTP_NOT_FOUND);
     }
-    public static function responseValidation($errors = [], $message = 'Failed!')
+    public static function requestValidation($errors = [], $message = 'Failed!')
     {
         return response()->json([
             "status" => Response::HTTP_BAD_REQUEST,
             "message" => $message,
+            "errors" => $errors
+        ], Response::HTTP_BAD_REQUEST);
+    }
+    public function badRequestWithLog($errors)
+    {
+        return response()->json([
+            "status" => Response::HTTP_BAD_REQUEST,
+            "message" => 'Failed!',
             "errors" => $errors
         ], Response::HTTP_BAD_REQUEST);
     }

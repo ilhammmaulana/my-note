@@ -14,10 +14,10 @@ class CreateNotesTable extends Migration
     public function up()
     {
         Schema::create('notes', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
             $table->timestamps();
             $table->string('title');
-            $table->foreignId('created_by')->constrained('users');
+            $table->foreignUuid('created_by')->constrained('users');
             $table->text('body')->constrained('users');
         });
     }
@@ -30,6 +30,5 @@ class CreateNotesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('notes');
-        // 
     }
 }
