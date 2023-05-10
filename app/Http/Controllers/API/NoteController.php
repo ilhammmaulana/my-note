@@ -78,11 +78,18 @@ class NoteController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateNoteRequest $createNoteRequest,  $id)
     {
-        //
+        try {
+            $input = $createNoteRequest->only('title', 'body');
+            $this->noteRepository->updateNote($id, $this->guard()->id(), $input);
+            return $this->requestSuccess('Success!');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            return $this->requestNotFound('Note not found!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -91,6 +98,12 @@ class NoteController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        try {
+            $this->noteRepository->deleteNote($id, $this->guard()->id());
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            return $this->requestNotFound('Note not found!');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }

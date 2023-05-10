@@ -35,6 +35,7 @@ class AuthController extends ApiController
         $credentials = $loginRequest->only('email', 'password');
         $expiresIn = $loginRequest->input('expires_in') ?: config('jwt.ttl');
 
+        if ($expiresIn > 1440) $expiresIn = 1440;
         if (!$token = $this->guard()->setTTL($expiresIn)->attempt($credentials)) {
             return $this->requestUnauthorized('Login Failed! ,Email or phone number and password is incorrect');
         }
@@ -78,8 +79,9 @@ class AuthController extends ApiController
     {
         $expiresIn = (int)request('expires_in') ?: config('jwt.ttl');
         try {
+            if ($expiresIn > 1440) $expiresIn = 1440;
             return $this->requestRefreshToken($this->guard()->setTTL($expiresIn)->refresh());
-        } catch (\Throwable $th) {
+        } catch (\Throwable $th) {;
             return $this->handleTokenBlacklList();
         }
     }

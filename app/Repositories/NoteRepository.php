@@ -34,4 +34,26 @@ class NoteRepository  implements NoteRepositoryInterface
             throw $th;
         }
     }
+    public function updateNote($idNote, $idUser, $data)
+    {
+        try {
+            $find = Note::where('id', $idNote)->where('created_by', $idUser)->firstOrFail()->update($data);
+            return;
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            throw $th;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function deleteNote($idNote, $idUser)
+    {
+        try {
+            $find = Note::where('id', $idNote)->where('created_by', $idUser)->firstOrFail()->delete();
+            return;
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            throw $th;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

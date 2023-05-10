@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 
 class FormRequest extends Request implements ValidatesWhenResolved
 {
-    use ValidatesWhenResolvedTrait;
+    use ValidatesWhenResolvedTrait; 
 
     /**
      * The container instance.

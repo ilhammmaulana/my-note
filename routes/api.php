@@ -38,7 +38,7 @@ Route::group(["prefix" => "auth"], function () {
 
 
 Route::middleware(['auth.api'])->group(function () {
-    Route::resource('notes', NoteController::class)->only(['index', 'store', 'show']);
+    Route::resource('notes', NoteController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::group([
         'prefix' => 'user'
     ], function () {
