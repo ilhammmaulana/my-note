@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\API\CreateNoteRequest;
+use App\Http\Requests\API\PinNoteRequest;
 use App\Http\Resources\API\NoteResource;
 use App\Repositories\NoteRepository;
 use Illuminate\Http\Request;
@@ -100,10 +101,19 @@ class NoteController extends ApiController
     {
         try {
             $this->noteRepository->deleteNote($id, $this->guard()->id());
+            return $this->requestSuccess('Success!', 204);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
             return $this->requestNotFound('Note not found!');
         } catch (\Throwable $th) {
-            //throw $th;
+            return $this->badRequest($th->getMessage());
         }
+    }
+    public function pinNote(PinNoteRequest $pinNoteRequest, $id)
+    {
+        $input = $pinNoteRequest->only('pinned');
+        $input['pinned'] = (bool)$input['pinned'];
+    }
+    public function getNotesPin()
+    {
     }
 }

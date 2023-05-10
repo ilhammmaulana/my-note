@@ -19,6 +19,7 @@ class CreateNotesTable extends Migration
             $table->string('title');
             $table->foreignUuid('created_by')->constrained('users');
             $table->text('body')->constrained('users');
+            $table->boolean('pinned')->nullable()->default(false);
         });
     }
 

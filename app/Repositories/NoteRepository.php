@@ -8,6 +8,11 @@ interface NoteRepositoryInterface
 {
     public function getNotes($idUser);
     public function createNote($idUser, $data);
+    public function getNote($idNote, $idUser);
+    public function updateNote($idNote, $idUser, $data);
+    public function deleteNote($idNote, $idUser);
+    public function pinNote($idNote, $idUser, $pinnedCondition);
+    public function getPinNote($idNote, $idUser);
 }
 
 
@@ -55,5 +60,24 @@ class NoteRepository  implements NoteRepositoryInterface
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function pinNote($idNote, $idUser, $pinnedCondition)
+    {
+        try {
+            $note = Note::where('id', $idNote)->where('created_by', $idUser)->firstOrFail()->update([
+                "pinned" => $pinnedCondition
+            ]);
+            return;
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            throw $th;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+    public function getPinNote($idNote, $idUser)
+    {
+        $notes = Note::where('id', $idNote)->where('created_by', $idUser)->where('pinned', true)->get();
+        return $notes;
     }
 }
