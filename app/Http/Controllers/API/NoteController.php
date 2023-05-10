@@ -110,10 +110,18 @@ class NoteController extends ApiController
     }
     public function pinNote(PinNoteRequest $pinNoteRequest, $id)
     {
-        $input = $pinNoteRequest->only('pinned');
-        $input['pinned'] = (bool)$input['pinned'];
+        try {
+            $input = $pinNoteRequest->only('pinned');
+            $input['pinned'] = (bool)$input['pinned'];
+            $this->noteRepository->pinNote($id, $this->guard()->id(), $input['pinned']);
+            return $this->requestSuccess();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
     public function getNotesPin()
     {
+        $notes = $this->noteRepository->getPinNote($this->guard()->id());
+        return $this->requestSuccessData($notes);
     }
 }

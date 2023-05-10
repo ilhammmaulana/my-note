@@ -12,7 +12,7 @@ interface NoteRepositoryInterface
     public function updateNote($idNote, $idUser, $data);
     public function deleteNote($idNote, $idUser);
     public function pinNote($idNote, $idUser, $pinnedCondition);
-    public function getPinNote($idNote, $idUser);
+    public function getPinNote($idUser);
 }
 
 
@@ -75,9 +75,9 @@ class NoteRepository  implements NoteRepositoryInterface
             //throw $th;
         }
     }
-    public function getPinNote($idNote, $idUser)
+    public function getPinNote($idUser)
     {
-        $notes = Note::where('id', $idNote)->where('created_by', $idUser)->where('pinned', true)->get();
+        $notes = Note::where('created_by', $idUser)->where('pinned', true)->get();
         return $notes;
     }
 }
