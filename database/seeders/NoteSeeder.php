@@ -21,7 +21,7 @@ class NoteSeeder extends Seeder
             "admin@gmail.com",
         ])->each(function ($email) use ($faker) {
             $id = User::where('email', $email)->select('id')->first()->id;
-            for ($i = 0; $i < 1000; $i++) {
+            for ($i = 0; $i < 2; $i++) {
                 Note::create([
                     "created_by" => $id,
                     "title" => $faker->sentence(2),

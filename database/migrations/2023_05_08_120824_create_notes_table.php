@@ -14,12 +14,12 @@ class CreateNotesTable extends Migration
     public function up()
     {
         Schema::create('notes', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->timestamps();
+            $table->uuid('id')->primary();
             $table->string('title');
             $table->foreignUuid('created_by')->constrained('users');
             $table->text('body')->constrained('users');
             $table->boolean('pinned')->nullable()->default(false);
+            $table->timestamps();
         });
     }
 

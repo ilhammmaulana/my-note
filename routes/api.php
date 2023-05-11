@@ -38,13 +38,13 @@ Route::group(["prefix" => "auth"], function () {
 
 
 Route::middleware(['auth.api'])->group(function () {
-    Route::resource('notes', NoteController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::group([
         "prefix" => "notes",
     ], function () {
         Route::get('/pin', [NoteController::class, 'getNotesPin']);
         Route::post('/{id}/pin', [NoteController::class, 'pinNote']);
     });
+    Route::resource('notes', NoteController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::group([
         'prefix' => 'user'
     ], function () {

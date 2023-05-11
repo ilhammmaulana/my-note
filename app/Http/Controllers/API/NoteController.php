@@ -54,7 +54,7 @@ class NoteController extends ApiController
     public function show($id)
     {
         try {
-            $note = $this->noteRepository->getNote($id, $this->guard()->id());
+            $note = new NoteResource($this->noteRepository->getNote($id, $this->guard()->id()));
             return $this->requestSuccessData($note);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
             return $this->requestNotFound('Note not found!');
@@ -112,16 +112,18 @@ class NoteController extends ApiController
     {
         try {
             $input = $pinNoteRequest->only('pinned');
-            $input['pinned'] = (bool)$input['pinned'];
+            $input['pinned'] = $input['pinned'];
             $this->noteRepository->pinNote($id, $this->guard()->id(), $input['pinned']);
             return $this->requestSuccess();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            return $this->requestNotFound('Note not found!');
         } catch (\Throwable $th) {
             throw $th;
         }
     }
     public function getNotesPin()
     {
-        $notes = $this->noteRepository->getPinNote($this->guard()->id());
+        $notes = NoteResource::collection($this->noteRepository->getPinNote($this->guard()->id()));
         return $this->requestSuccessData($notes);
     }
 }
