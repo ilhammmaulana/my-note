@@ -28,25 +28,16 @@ class AuthController extends ApiController
      */
     public function login(LoginRequest $loginRequest)
     {
-        $statusDeviceToken = false;
-        if ($device_token = $loginRequest->header('device_token')) {
-            $statusDeviceToken = true;
-        }
-        $credentials = $loginRequest->only('email', 'password');
+        $loginType = filter_var($loginRequest->input('email_or_phone'), FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+        $loginRequest->merge([
+            $loginType => $loginRequest->input('email_or_phone')
+        ]);
+        $credentials = $loginRequest->only($loginType, 'password');
         $expiresIn = $loginRequest->input('expires_in') ?: config('jwt.ttl');
-
-        if ($expiresIn > 1440) $expiresIn = 1440;
         if (!$token = $this->guard()->setTTL($expiresIn)->attempt($credentials)) {
             return $this->requestUnauthorized('Login Failed! ,Email or phone number and password is incorrect');
         }
-        if ($statusDeviceToken) {
-            User::find($this->guard()->id())->update([
-                "device_token" => $device_token,
-            ]);
-            return $this->respondWithToken($token);
-        } else {
-            return $this->badRequest('Failed!, should be using device token');
-        }
+        return $this->respondWithToken($token);
     }
 
     /**
