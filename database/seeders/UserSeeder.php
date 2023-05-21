@@ -18,11 +18,24 @@ class UserSeeder extends Seeder
         User::create([
             "name" => 'Ilham Maulana',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('password'), // password
+            'password' => bcrypt('larapel02'), // password
             'phone' => "08954638229",
-            'photo' => 'https://placehold.co/600x400?text=User+Photo'
+            'photo' => null
         ]);
-
+        User::create([
+            "name" => 'Nabila',
+            'email' => 'nabila@gmail.com',
+            'password' => bcrypt('larapel02'), // password
+            'phone' => "08111",
+            'photo' => null
+        ]);
+        User::create([
+            "name" => 'Johan',
+            'email' => 'johan@gmail.com',
+            'password' => bcrypt('larapel02'), // password
+            'phone' => "081112",
+            'photo' => null
+        ]);
         User::factory(10)->create();
     }
 }
