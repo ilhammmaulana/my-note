@@ -23,8 +23,12 @@ class NoteResource extends JsonResource
             "id" => $this->id,
             "title" => $this->title,
             "body" => $this->body,
-            "tags" => $this->tags,
-            "pined" => $this->pinned == 1 || $this->pinned == true ? true : false,
+            "category_id" => $this->category,
+            "category" => $this->category_id === null ? null : [
+                "id" => $this->category_id,
+                "category_name" => $this->category->category_name,
+            ],
+            "favorite" => $this->favorite == 1 || $this->favorite == true ? true : false,
             "updated_at_format" => $formattedDate,
             "updated_at" => $this->updated_at->format('Y-m-d H:m:s'),
             "created_at" => $this->created_at->format('Y-m-d H:m:s')

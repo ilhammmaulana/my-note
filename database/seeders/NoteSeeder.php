@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Note;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -17,15 +18,19 @@ class NoteSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
+        $categoryFake = Category::where('category_name', 'belajar')->first();
+        // Collection for admin
         collect([
             "admin@gmail.com",
-        ])->each(function ($email) use ($faker) {
+        ])->each(function ($email) use ($faker, $categoryFake) {
             $id = User::where('email', $email)->select('id')->first()->id;
-            for ($i = 0; $i < 2; $i++) {
+            for ($i = 0; $i < 4; $i++) {
                 Note::create([
                     "created_by" => $id,
                     "title" => $faker->sentence(2),
-                    "body" =>  $faker->paragraph(20)
+                    "body" =>  $faker->paragraph(20),
+                    "category_id" => rand(0, 1) === 1 ? null : $categoryFake->id,
+                    "favorite" => rand(0, 1) === 1 ? true : false
                 ]);
             }
         });

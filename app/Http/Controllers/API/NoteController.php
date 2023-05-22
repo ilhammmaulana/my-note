@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\API\CreateNoteRequest;
 use App\Http\Requests\API\PinNoteRequest;
+use App\Http\Requests\API\UpdateNoteRequest;
 use App\Http\Resources\API\NoteResource;
 use App\Repositories\NoteRepository;
 use Illuminate\Http\Request;
@@ -28,7 +29,10 @@ class NoteController extends ApiController
     public function index()
     {
         $data = NoteResource::collection($this->noteRepository->getNotes($this->guard()->id()));
-        return $this->requestSuccessData($data);
+        $collection = $data->sortByDesc(function ($item) {
+            return $item->favorite ? 1 : 0;
+        })->values();
+        return $this->requestSuccessData($collection);
     }
 
 
@@ -40,7 +44,7 @@ class NoteController extends ApiController
      */
     public function store(CreateNoteRequest $createNoteRequest)
     {
-        $input = $createNoteRequest->only('title', 'body');
+        $input = $createNoteRequest->only('title', 'body', 'category_id');
         $this->noteRepository->createNote($this->guard()->id(), $input);
         return $this->requestSuccess('Success!', 201);
     }
@@ -79,10 +83,10 @@ class NoteController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateNoteRequest $createNoteRequest,  $id)
+    public function update(UpdateNoteRequest $updateNoteRequest,  $id)
     {
         try {
-            $input = $createNoteRequest->only('title', 'body');
+            $input = $updateNoteRequest->only('title', 'body', 'category_id');
             $this->noteRepository->updateNote($id, $this->guard()->id(), $input);
             return $this->requestSuccess('Success!');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
@@ -108,12 +112,12 @@ class NoteController extends ApiController
             return $this->badRequest($th->getMessage());
         }
     }
-    public function pinNote(PinNoteRequest $pinNoteRequest, $id)
+    public function favoriteNote(PinNoteRequest $pinNoteRequest, $id)
     {
         try {
-            $input = $pinNoteRequest->only('pinned');
-            $input['pinned'] = $input['pinned'];
-            $this->noteRepository->pinNote($id, $this->guard()->id(), $input['pinned']);
+            $input = $pinNoteRequest->only('favorite');
+            $input['favorite'] = $input['favorite'];
+            $this->noteRepository->favoriteNote($id, $this->guard()->id(), $input['favorite']);
             return $this->requestSuccess();
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
             return $this->requestNotFound('Note not found!');
@@ -121,9 +125,9 @@ class NoteController extends ApiController
             throw $th;
         }
     }
-    public function getNotesPin()
+    public function getFavoriteNote()
     {
-        $notes = NoteResource::collection($this->noteRepository->getPinNote($this->guard()->id()));
+        $notes = NoteResource::collection($this->noteRepository->getFavoriteNote($this->guard()->id()));
         return $this->requestSuccessData($notes);
     }
 }

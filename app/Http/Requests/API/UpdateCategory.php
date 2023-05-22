@@ -2,15 +2,12 @@
 
 namespace App\Http\Requests\API;
 
-use App\Traits\ResponseAPI;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PinNoteRequest extends FormRequest
+class UpdateCategory extends FormRequest
 {
-    use ResponseAPI;
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -29,11 +26,12 @@ class PinNoteRequest extends FormRequest
     public function rules()
     {
         return [
-            "favorite" => "required|boolean"
+            "category_name" => 'required|min:1'
         ];
     }
+
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors())));
+        throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors()), 'Failed!'));
     }
 }

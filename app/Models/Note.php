@@ -10,8 +10,12 @@ class Note extends Model
 {
     use HasFactory, useUUID;
     protected $table = 'notes';
-    protected $fillable = ['title', 'body', 'created_by', 'label', 'pinned'];
+    protected $fillable = ['title', 'body', 'created_by', 'label', 'favorite', 'category_id'];
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

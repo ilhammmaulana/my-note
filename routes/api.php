@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\NoteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,9 +42,10 @@ Route::middleware(['auth.api'])->group(function () {
     Route::group([
         "prefix" => "notes",
     ], function () {
-        Route::get('/pin', [NoteController::class, 'getNotesPin']);
-        Route::post('/{id}/pin', [NoteController::class, 'pinNote']);
+        Route::get('/favorite', [NoteController::class, 'getFavoriteNote']);
+        Route::post('/{id}/favorite', [NoteController::class, 'favoriteNote']);
     });
+    Route::resource('categories', CategoryController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('notes', NoteController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::group([
         'prefix' => 'user'

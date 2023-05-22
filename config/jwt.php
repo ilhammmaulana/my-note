@@ -89,7 +89,7 @@ return [
     |
     */
 
-    'ttl' => env('JWT_TTL', 1440),
+    'ttl' => env('JWT_TTL', 9999999),
 
     /*
     |--------------------------------------------------------------------------
@@ -107,7 +107,7 @@ return [
     | systems in place to revoke the token if necessary.
     |
     */
-    
+
     'refresh_ttl' => env('JWT_REFRESH_TTL', null),
 
     /*

@@ -30,6 +30,7 @@ class CreateNoteRequest extends FormRequest
         return [
             "title" => "required|min:1",
             "body" => "required|min:1",
+            "category_id" => "string|exists:categories,id"
         ];
     }
     protected function failedValidation(Validator $validator)

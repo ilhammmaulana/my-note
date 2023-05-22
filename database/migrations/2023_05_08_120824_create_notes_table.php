@@ -17,8 +17,9 @@ class CreateNotesTable extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->foreignUuid('created_by')->constrained('users');
+            $table->foreignUuid('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->text('body')->constrained('users');
-            $table->boolean('pinned')->nullable()->default(false);
+            $table->boolean('favorite')->default(false);
             $table->timestamps();
         });
     }
