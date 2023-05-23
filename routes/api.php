@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\DevController;
+use App\Http\Controllers\API\ForgotPasswordController;
 use App\Http\Controllers\API\NoteController;
+use App\Mail\ForgotPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +30,7 @@ Route::group(["prefix" => "auth"], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth.refresh');
     Route::post('/register', [AuthController::class, 'register']);
+
     Route::group([
         'middleware' => 'auth.api',
     ], function () {
@@ -52,4 +56,16 @@ Route::middleware(['auth.api'])->group(function () {
     ], function () {
         Route::post('profile', [AuthController::class, 'update']);
     });
+});
+
+Route::prefix('forgot-password')->group(function () {
+    Route::post('send', [ForgotPasswordController::class, 'sendOTP']);
+    Route::post('verify', [ForgotPasswordController::class, 'verifyOTP']);
+    Route::post('reset', [ForgotPasswordController::class, 'resetPassword']);
+});
+
+Route::group([
+    "prefix" => "dev",
+], function () {
+    Route::post('mail', [DevController::class, 'sendEmail']);
 });

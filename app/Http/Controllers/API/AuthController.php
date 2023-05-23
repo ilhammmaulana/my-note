@@ -18,7 +18,7 @@ class AuthController extends ApiController
     use ResponseAPI, JWTResponse;
     public function __construct()
     {
-        $this->middleware('auth.api', ['except' => ['login', 'refresh']]);
+        $this->middleware('auth.api', ['except' => ['login', 'refresh', 'register']]);
     }
 
     /**
@@ -47,7 +47,7 @@ class AuthController extends ApiController
      */
     public function me()
     {
-        return $this->requestSuccessData('Success!', new UserResource($this->guard()->user()));
+        return $this->requestSuccessData(new UserResource($this->guard()->user()));
     }
 
     /**
@@ -115,6 +115,16 @@ class AuthController extends ApiController
                 "code" => 201,
                 "message" => 'Register Success!',
             ], 201);
+        } catch (\Illuminate\Database\QueryException $errors) {
+            if ($errors->errorInfo[1] === 1062) {
+                if (strpos($errors->getMessage(), 'users_email_unique') !== false) {
+                    return $this->badRequest('Email already registered!', 'email_unique');
+                } elseif (strpos($errors->getMessage(), 'users_phone_unique') !== false) {
+                    return $this->badRequest('Phone number already registered!', 'phone_unique');
+                }
+            } else {
+                return $this->badRequest('Failed!', $errors->getMessage());
+            }
         } catch (\Throwable $errors) {
             return $this->badRequest('Failed!', 'bad_request');
         }
@@ -123,7 +133,6 @@ class AuthController extends ApiController
     public function update(UpdateProfileRequest $updateProfileRequest)
     {
         $photo = $updateProfileRequest->file('photo');
-        $banner = $updateProfileRequest->file('banner_photo');
         try {
             $user = User::find($this->guard()->id());
 
@@ -131,7 +140,7 @@ class AuthController extends ApiController
                 $input = $updateProfileRequest->only('phone', 'email');
                 $user->phone = $input['phone'];
                 $user->email = $input['email'];
-            } elseif ($updateProfileRequest->hasAny('name', 'school_id') && !$updateProfileRequest->hasAny('email', 'phone')) {
+            } elseif ($updateProfileRequest->hasAny('name') || $updateProfileRequest->files('photo') && !$updateProfileRequest->hasAny('email', 'phone')) {
                 if ($photo) {
                     $pathDelete = $user->photo;
                     if ($pathDelete !== null) {
@@ -139,14 +148,6 @@ class AuthController extends ApiController
                     }
                     $path = Storage::disk('public')->put('images/users', $photo);
                     $user->photo = 'public/' . $path;
-                }
-                if ($banner) {
-                    $pathDelete = $user->banner_photo;
-                    if ($pathDelete !== null) {
-                        Storage::delete($pathDelete);
-                    }
-                    $path = Storage::disk('public')->put('images/banner', $banner);
-                    $user->banner_photo = 'public/' . $path;
                 }
                 $input = $updateProfileRequest->only('name', 'school_id');
                 $user->name = $input['name'];
@@ -165,5 +166,8 @@ class AuthController extends ApiController
                 }
             }
         }
+    }
+    public function forgotPassword()
+    {
     }
 }
