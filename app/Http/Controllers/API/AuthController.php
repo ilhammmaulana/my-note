@@ -118,7 +118,7 @@ class AuthController extends ApiController
         } catch (\Illuminate\Database\QueryException $errors) {
             if ($errors->errorInfo[1] === 1062) {
                 if (strpos($errors->getMessage(), 'users_email_unique') !== false) {
-                    return $this->badRequest('email_unique', 'Email already registered!',);
+                    return $this->badRequest('email_unique', 'Email already registered!');
                 } elseif (strpos($errors->getMessage(), 'users_phone_unique') !== false) {
                     return $this->badRequest('phone_unique', 'Phone number already registered!');
                 }
@@ -132,31 +132,21 @@ class AuthController extends ApiController
 
     public function update(UpdateProfileRequest $updateProfileRequest)
     {
-        $photo = $updateProfileRequest->file('photo');
         try {
+            $photo = $updateProfileRequest->file('photo');
+            $input = $updateProfileRequest->only('name');
             $user = User::find($this->guard()->id());
-
-            if ($updateProfileRequest->hasAny('email', 'phone') && !$updateProfileRequest->hasAny('name', 'school_id', 'banner', 'photo')) {
-                $input = $updateProfileRequest->only('phone', 'email');
-                $user->phone = $input['phone'];
-                $user->email = $input['email'];
-            } elseif ($updateProfileRequest->hasAny('name') || $updateProfileRequest->files('photo') && !$updateProfileRequest->hasAny('email', 'phone')) {
-                if ($photo) {
-                    $pathDelete = $user->photo;
-                    if ($pathDelete !== null) {
-                        Storage::delete($pathDelete);
-                    }
-                    $path = Storage::disk('public')->put('images/users', $photo);
-                    $user->photo = 'public/' . $path;
+            if ($photo) {
+                $pathDelete = $user->photo;
+                if ($pathDelete !== null) {
+                    Storage::delete($pathDelete);
                 }
-                $input = $updateProfileRequest->only('name', 'school_id');
-                $user->name = $input['name'];
-                $user->school_id = $input['school_id'];
-            } else {
-                return $this->badRequest('Failed!, Please enter the rules', 'rules_validation');
+                $path = Storage::disk('public')->put('images/users', $photo);
+                $user->photo = 'public/' . $path;
             }
+            $user->name = $input['name'];
             $user->save();
-            return $this->requestSuccess('Success!', 200);
+            return $this->requestSuccessData(new UserResource($user));
         } catch (\Illuminate\Database\QueryException $errors) {
             if ($errors->errorInfo[1] === 1062) {
                 if (strpos($errors->getMessage(), 'users_phone_unique') !== false) {
