@@ -118,9 +118,9 @@ class AuthController extends ApiController
         } catch (\Illuminate\Database\QueryException $errors) {
             if ($errors->errorInfo[1] === 1062) {
                 if (strpos($errors->getMessage(), 'users_email_unique') !== false) {
-                    return $this->badRequest('Email already registered!', 'email_unique');
+                    return $this->badRequest('email_unique', 'Email already registered!',);
                 } elseif (strpos($errors->getMessage(), 'users_phone_unique') !== false) {
-                    return $this->badRequest('Phone number already registered!', 'phone_unique');
+                    return $this->badRequest('phone_unique', 'Phone number already registered!');
                 }
             } else {
                 return $this->badRequest('Failed!', $errors->getMessage());
