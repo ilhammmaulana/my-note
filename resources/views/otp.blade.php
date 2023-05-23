@@ -76,7 +76,7 @@
             <a href="#">Note App</a>
         </div>
         <p class="message">Hi,</p>
-        <p>You are receiving this email because you have requested to reset your password for your Note App account. To proceed with the password reset, please use the following OTP (One-Time Password) within the next 5 minutes:</p>
+        <p>You are receiving this email because you have requested to reset your password for your Note App account. To proceed with the password reset, please use the following OTP (One-Time Password) within the next 1 hour:</p>
         <div class="otp-container">
             <div class="otp">{{ $otp }}</div>
         </div>

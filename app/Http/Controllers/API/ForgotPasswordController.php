@@ -89,8 +89,11 @@ class ForgotPasswordController extends ApiController
             }
             $expiresAt = Carbon::parse($token->created_at)->addMinutes(config('app.expired_token_otp'));
             if (Carbon::now()->gt($expiresAt)) {
-                return $this->badRequest('otp_expired', 'OTP expired!');
+                return $this->badRequest('token_expired', 'Token expired!');
             }
+            DB::table('password_resets')
+                ->where('token', $input['token'])
+                ->update(['created_at' => Carbon::now()->subYears(10)]);
             User::where('email', $token->email)->update([
                 "password" => bcrypt($input['password'])
             ]);
