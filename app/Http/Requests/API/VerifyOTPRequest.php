@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateNoteRequest extends FormRequest
+class VerifyOTPRequest extends FormRequest
 {
     use ResponseAPI;
     /**
@@ -28,12 +28,11 @@ class CreateNoteRequest extends FormRequest
     public function rules()
     {
         return [
-            "title" => "string",
-            "body" => "string",
-            "category_id" => "string|exists:categories,id"
+            "email" => "required",
+            "otp" => "required|numeric|min:4"
         ];
     }
-    protected function failedValidation(Validator $validator)
+    public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors())));
     }

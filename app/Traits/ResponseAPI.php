@@ -88,4 +88,12 @@ trait ResponseAPI
             "errors" => $errors
         ], Response::HTTP_BAD_REQUEST);
     }
+    public function OTPSuccess($token)
+    {
+        return response()->json([
+            'status' => 200,
+            'message' => "Success! OTP Match",
+            'token' => $token
+        ]);
+    }
 }

@@ -17,7 +17,8 @@ class CreatePasswordResetsTable extends Migration
             $table->string('email')->index();
             $table->string('token');
             $table->string('otp');
-            $table->timestamp('created_at')->nullable();
+            $table->boolean('verified')->default(false);
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
