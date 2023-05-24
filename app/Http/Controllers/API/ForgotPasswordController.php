@@ -27,10 +27,13 @@ class ForgotPasswordController extends ApiController
             $user = User::where('email', $input['email'])->first();
             $randomOTP = generateOTP();
             $token = Str::random(50) . Carbon::now()->format('YmdHms');
+
             DB::table('password_resets')->insert([
                 "token" => $token,
                 "email" => $input['email'],
                 "otp" => $randomOTP,
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now()
             ]);
             Mail::to($input['email'])->send(new ForgotPassword($input['email'], $user, $randomOTP));
             return $this->requestSuccess('Success!');
