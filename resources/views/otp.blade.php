@@ -68,7 +68,7 @@
             border: none;
             border-top: 1px solid #eee;
         }
-    </style>
+</style>
 </head>
 <body>
     <div class="container">

@@ -37,6 +37,7 @@ class AuthController extends ApiController
         if (!$token = $this->guard()->setTTL($expiresIn)->attempt($credentials)) {
             return $this->requestUnauthorized('Login Failed! ,Email or phone number and password is incorrect');
         }
+
         return $this->respondWithToken($token);
     }
 
@@ -106,10 +107,10 @@ class AuthController extends ApiController
     }
     public function register(RegiesterRequest $regiesterRequest)
     {
-        $input = $regiesterRequest->only('name', 'email', 'phone', 'password', 'confirm_password');
-        $input['password'] = bcrypt($input['password']);
-        unset($input['confirm_password']);
         try {
+            $input = $regiesterRequest->only('name', 'email', 'phone', 'password', 'confirm_password');
+            $input['password'] = bcrypt($input['password']);
+            unset($input['confirm_password']);
             User::create($input);
             return response()->json([
                 "code" => 201,
