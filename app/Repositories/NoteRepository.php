@@ -26,9 +26,9 @@ class NoteRepository  implements NoteRepositoryInterface
     public function createNote($idUser, $data)
     {
         return Note::create([
-            "title" => $data["title"],
-            "body" => $data["body"],
-            "category_id" => $data['category_id'] === null ? null : $data['category_id'],
+            "title" => isset($data["title"]) ? $data["title"] : null,
+            "body" => isset($data["body"]) ? $data["body"] : null,
+            "category_id" => isset($data['category_id']) ?  $data['category_id'] : null,
             "created_by" => $idUser,
         ]);
     }
