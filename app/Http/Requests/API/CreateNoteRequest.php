@@ -28,8 +28,8 @@ class CreateNoteRequest extends FormRequest
     public function rules()
     {
         return [
-            "title" => "string",
-            "body" => "string",
+            "title" => "max:5200",
+            "body" => "max:5200",
             "category_id" => "string|exists:categories,id"
         ];
     }
