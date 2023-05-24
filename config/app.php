@@ -69,6 +69,7 @@ return [
     */
 
     'timezone' => 'Asia/Jakarta',
+    'defaultTimezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
