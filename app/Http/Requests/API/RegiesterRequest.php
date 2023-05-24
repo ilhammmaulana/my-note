@@ -32,7 +32,7 @@ class RegiesterRequest extends FormRequest
         return [
             'name' => 'required|min:3',
             'email' => 'required|min:5',
-            'phone' => 'required|min:7|numeric',
+            'phone' => 'min:7|numeric',
             'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password|min:8',
         ];
