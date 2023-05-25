@@ -112,10 +112,7 @@ class AuthController extends ApiController
             $input['password'] = bcrypt($input['password']);
             unset($input['confirm_password']);
             User::create($input);
-            return response()->json([
-                "code" => 201,
-                "message" => 'Register Success!',
-            ], 201);
+            return $this->requestSuccess('Success!', 201);
         } catch (\Illuminate\Database\QueryException $errors) {
             if ($errors->errorInfo[1] === 1062) {
                 if (strpos($errors->getMessage(), 'users_email_unique') !== false) {
