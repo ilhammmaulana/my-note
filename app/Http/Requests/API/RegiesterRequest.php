@@ -32,13 +32,12 @@ class RegiesterRequest extends FormRequest
         return [
             'name' => 'required|min:3',
             'email' => 'required|min:5',
-            'phone' => 'min:7|numeric',
             'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password|min:8',
         ];
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->requestValidation($validator->errors()->toArray(), 'Failed!'));
+        throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors()), 'Failed!'));
     }
 }
