@@ -23,9 +23,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-
-
 Route::group(["prefix" => "auth"], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth.refresh');
@@ -40,7 +37,6 @@ Route::group(["prefix" => "auth"], function () {
     });
 });
 
-
 Route::middleware(['auth.api'])->group(function () {
     Route::group([
         "prefix" => "notes",
@@ -49,6 +45,11 @@ Route::middleware(['auth.api'])->group(function () {
         Route::post('/{id}/favorite', [NoteController::class, 'favoriteNote']);
     });
     Route::resource('categories', CategoryController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::group([
+        "prefix" => "categories"
+    ], function () {
+        Route::get('/{id}/notes', [CategoryController::class, 'getNoteByCategoryId']);
+    });
     Route::resource('notes', NoteController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::group([
         'prefix' => 'user'

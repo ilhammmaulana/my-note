@@ -13,6 +13,7 @@ interface NoteRepositoryInterface
     public function deleteNote($idNote, $idUser);
     public function favoriteNote($idNote, $idUser, $pinnedCondition);
     public function getFavoriteNote($idUser);
+    public function getNoteByCategoryId($idCategory, $createdBy);
 }
 
 
@@ -81,5 +82,14 @@ class NoteRepository  implements NoteRepositoryInterface
     {
         $notes = Note::where('created_by', $idUser)->where('favorite', true)->get();
         return $notes;
+    }
+    public function getNoteByCategoryId($idCategory, $createdBy)
+    {
+        try {
+            $notes = Note::where('category_id', $idCategory)->where('created_by', $createdBy)->get();
+            return $notes;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

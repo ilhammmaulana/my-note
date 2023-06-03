@@ -17,6 +17,7 @@ class CategoryResource extends JsonResource
         return [
             "id" => $this->id,
             "category_name" => $this->category_name,
+            "total_notes" => $this->notes_count,
             "created_at" => $this->created_at->format('Y-m-d H:m:s'),
             "updated_at" => $this->updated_at->format('Y-m-d H:m:s')
         ];

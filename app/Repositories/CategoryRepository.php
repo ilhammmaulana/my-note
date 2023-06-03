@@ -14,7 +14,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function getAll($userId)
     {
-        $categories = Category::where('created_by', $userId)->get();
+        $categories = Category::withCount('notes')->where('created_by', $userId)->get();
         return $categories;
     }
     public function createCategory($userId, $data)
@@ -24,6 +24,7 @@ class CategoryRepository implements CategoryRepositoryInterface
             "created_by" => $userId
         ]);
     }
+
     public function deleteCategory($userId, $categoryId)
     {
         try {

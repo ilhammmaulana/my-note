@@ -7,19 +7,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CreateCategoryRequest;
 use App\Http\Requests\API\UpdateCategory;
 use App\Http\Resources\API\CategoryResource;
+use App\Http\Resources\API\NoteResource;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
+use App\Repositories\NoteRepository;
 use Illuminate\Http\Request;
 
 class CategoryController extends ApiController
 {
-    protected $categoryRepository;
+    protected $categoryRepository, $noteRepository;
     /**
      * Class constructor.
      */
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(CategoryRepository $categoryRepository, NoteRepository $noteRepository)
     {
         $this->categoryRepository = $categoryRepository;
+        $this->noteRepository = $noteRepository;
     }
 
     /**
@@ -112,5 +115,16 @@ class CategoryController extends ApiController
             throw $th;
             // return $this->badRequest();
         }
+    }
+    public function getNoteByCategoryId($id)
+    {
+        $categoryExists = Category::where('id', $id)->exists();
+
+        if (!$categoryExists) {
+            return $this->requestNotFound('Category not found!');
+        }
+        $notes = NoteResource::collection($this->noteRepository->getNoteByCategoryId($id, $this->guard()->id()));
+
+        return $this->requestSuccessData($notes);
     }
 }
