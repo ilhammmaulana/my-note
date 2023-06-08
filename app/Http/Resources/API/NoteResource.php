@@ -23,7 +23,6 @@ class NoteResource extends JsonResource
             "id" => $this->id,
             "title" => $this->title,
             "body" => $this->body,
-            "category_id" => $this->category,
             "category" => $this->category_id === null ? null : [
                 "id" => $this->category_id,
                 "category_name" => $this->category->category_name,
