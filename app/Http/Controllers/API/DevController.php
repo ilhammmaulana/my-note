@@ -22,7 +22,7 @@ class DevController extends ApiController
         try {
             $input = $request->only('email');
             $idUser = "2930920393";
-            // Mail::to($input['email'])->send(new ForgotPassword($idUser, $input['email']));
+            Mail::to($input['email'])->send(new ForgotPassword($idUser, $input['email']));
             return response()->json([
                 'code' => 200,
                 'data' => 'data'
