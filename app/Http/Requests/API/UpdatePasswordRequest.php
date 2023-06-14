@@ -33,8 +33,8 @@ class UpdatePasswordRequest extends FormRequest
             'password_confirmation' => 'required|same:new_password|min:8'
         ];
     }
-    public function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->requestValidation($validator->errors()->toArray(), 'Failed!'));
+        throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors())));
     }
 }

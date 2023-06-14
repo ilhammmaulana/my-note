@@ -5,10 +5,19 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\API\CreateNoteRequest;
 use App\Http\Requests\API\PinNoteRequest;
+use App\Http\Requests\API\StoreNoteImageRequest;
 use App\Http\Requests\API\UpdateNoteRequest;
 use App\Http\Resources\API\NoteResource;
+use App\Http\Resources\ImageNoteResource;
+use App\Models\ImageNote;
+use App\Models\Note;
+use Illuminate\Support\Str;
 use App\Repositories\NoteRepository;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class NoteController extends ApiController
 {
@@ -129,5 +138,77 @@ class NoteController extends ApiController
     {
         $notes = NoteResource::collection($this->noteRepository->getFavoriteNote($this->guard()->id()));
         return $this->requestSuccessData($notes);
+    }
+    public function storeImageNote(StoreNoteImageRequest $storeNoteImageRequest, $id)
+    {
+
+        try {
+            $note = Note::findOrFail($id);
+            $image = $storeNoteImageRequest->file('image');
+            $userId = $this->guard()->id();
+
+            $userFolderPath = 'public/images/note-images/' . $userId;
+            if (!Storage::exists($userFolderPath)) {
+                Storage::makeDirectory($userFolderPath);
+            }
+
+            $noteFolderPath = $userFolderPath . '/' . $note->id;
+            if (!Storage::exists($noteFolderPath)) {
+                Storage::makeDirectory($noteFolderPath);
+            }
+
+            $fileName = "NOT3APP" . Str::random(20) . Carbon::now()->format('YmdHms') . '.' . $image->getClientOriginalExtension();
+            $image->storeAs($noteFolderPath, $fileName);
+
+            DB::beginTransaction();
+
+            try {
+                $data = new ImageNoteResource(ImageNote::create([
+                    "note_id" => $id,
+                    "image" => $noteFolderPath . '/' . $fileName
+                ]));
+                DB::commit();
+
+                return $this->requestSuccessData($data, 201);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                Storage::delete($noteFolderPath . $fileName);
+                throw $e;
+            }
+        } catch (ModelNotFoundException $exception) {
+            return $this->requestNotFound('Note not found!');
+        }
+    }
+    public function deleteImageNote($imageNoteId)
+    {
+        try {
+            $imageNote = ImageNote::findOrFail($imageNoteId);
+            $noteId = $imageNote->note_id;
+            $note = Note::where('id', $noteId)
+                ->where('created_by', $this->guard()->id())
+                ->first();
+
+            if ($note) {
+                $imagePath = $imageNote->image;
+                $imageNote->delete();
+                Storage::delete($imagePath);
+                $folderPath = dirname($imagePath);
+                $files = Storage::files($folderPath);
+                if (empty($files)) {
+                    Storage::deleteDirectory($folderPath);
+                    $userFolderPath = dirname($folderPath);
+                    $userFiles = Storage::allFiles($userFolderPath);
+                    if (empty($userFiles)) {
+                        Storage::deleteDirectory($userFolderPath);
+                    }
+                }
+
+                return $this->requestSuccess('Success!');
+            } else {
+                return $this->requestNotFound('Image note not found!');
+            }
+        } catch (ModelNotFoundException $exception) {
+            return $this->requestNotFound('Image note not found!');
+        }
     }
 }

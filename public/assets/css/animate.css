@@ -1,0 +1,20 @@
+.alert-move-down {
+    transition: .1s;
+}
+
+#animation-login-logo {
+    position: relative;
+    opacity: 1;
+    transition: 0.2s;
+}
+
+#animation-login-logo.hidden {
+    opacity: 0;
+    top: -140px;
+}
+
+
+
+#animation-login-logo.hidden * {
+    opacity: 0;
+}

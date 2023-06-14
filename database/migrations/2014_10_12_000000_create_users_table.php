@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('photo')->default(null)->nullable();
             $table->string('device_token')->nullable();
             $table->string('password');
+            $table->foreignId('role_id')->default(2)->constrained('roles');
             $table->softDeletes();
             $table->timestamps();
         });

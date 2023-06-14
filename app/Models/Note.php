@@ -18,4 +18,8 @@ class Note extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    public function imagesNote()
+    {
+        return $this->hasMany(ImageNote::class);
+    }
 }

@@ -1,0 +1,19 @@
+section {
+    overflow-x: hidden;
+}
+
+
+.form-group-custom input {
+    width: 400px;
+    font-size: 14px;
+    padding: .8rem 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #e8e8e8 !important;
+    margin-bottom: 20px;
+}
+
+.form-group-custom input:focus {
+    outline: none;
+    box-shadow: none;
+}

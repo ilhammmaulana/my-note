@@ -43,6 +43,8 @@ Route::middleware(['auth.api'])->group(function () {
     ], function () {
         Route::get('/favorite', [NoteController::class, 'getFavoriteNote']);
         Route::post('/{id}/favorite', [NoteController::class, 'favoriteNote']);
+        Route::post('/{id}/store-image', [NoteController::class, 'storeImageNote']);
+        Route::delete('/{imageNoteId}/delete-image', [NoteController::class, 'deleteImageNote']);
     });
     Route::resource('categories', CategoryController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::group([

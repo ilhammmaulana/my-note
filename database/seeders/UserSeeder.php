@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => bcrypt('larapel02'), // password
             'phone' => "08954638229",
+            'role_id' => 1,
             'photo' => null
         ]);
         User::create([
@@ -27,6 +28,7 @@ class UserSeeder extends Seeder
             'email' => 'nabila@gmail.com',
             'password' => bcrypt('larapel02'), // password
             'phone' => "08111",
+            'role_id' => 1,
             'photo' => null
         ]);
         User::create([
@@ -34,6 +36,7 @@ class UserSeeder extends Seeder
             'email' => 'johan@gmail.com',
             'password' => bcrypt('larapel02'), // password
             'phone' => "081112",
+            'role_id' => 1,
             'photo' => null
         ]);
         User::factory(10)->create();
