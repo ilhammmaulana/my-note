@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotesTable extends Migration
+class CreateNoteCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateNotesTable extends Migration
      */
     public function up()
     {
-        Schema::create('notes', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('title');
-            $table->foreignUuid('created_by')->constrained('users');
-            $table->text('body')->constrained('users');
-            $table->boolean('favorite')->default(false);
+        Schema::create('note_categories', function (Blueprint $table) {
+            $table->uuid('id')->primary()->index();
+            $table->foreignUuid('note_id')->constrained('notes');
+            $table->foreignUuid('category_id')->constrained('categories');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateNotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('note_categories');
     }
 }

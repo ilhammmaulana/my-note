@@ -21,7 +21,7 @@ class NoteRepository  implements NoteRepositoryInterface
 {
     public function getNotes($idUser)
     {
-        $notes = Note::with('category', 'imagesNote')->where('created_by', $idUser)->latest()->get();
+        $notes = Note::with('noteCategory', 'imagesNote')->where('created_by', $idUser)->latest()->get();
         return $notes;
     }
     public function createNote($idUser, $data)
@@ -91,5 +91,8 @@ class NoteRepository  implements NoteRepositoryInterface
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+    public function attachCategoryToNote($noteId, $categoryId)
+    {
     }
 }

@@ -37,7 +37,8 @@ class NoteController extends ApiController
      */
     public function index()
     {
-        $data = NoteResource::collection($this->noteRepository->getNotes($this->guard()->id()));
+        $rawData = $this->noteRepository->getNotes($this->guard()->id());
+        $data = NoteResource::collection($rawData);
         $collection = $data->sortByDesc(function ($item) {
             return $item->favorite ? 1 : 0;
         })->values();
