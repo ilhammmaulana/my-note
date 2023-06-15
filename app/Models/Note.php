@@ -14,10 +14,6 @@ class Note extends Model
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    public function noteCategory()
-    {
-        return $this->belongsTo(Category::class);
-    }
     public function imagesNote()
     {
         return $this->hasMany(ImageNote::class);

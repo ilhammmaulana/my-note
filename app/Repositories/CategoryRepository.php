@@ -8,6 +8,8 @@ use App\Models\User;
 interface CategoryRepositoryInterface
 {
     public function getAll($userId);
+    public function createCategory($userId, $data);
+    public function deleteCategory($userId, $categoryId);
 }
 
 class CategoryRepository implements CategoryRepositoryInterface

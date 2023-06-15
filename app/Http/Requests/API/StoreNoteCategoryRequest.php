@@ -4,11 +4,10 @@ namespace App\Http\Requests\API;
 
 use App\Traits\ResponseAPI;
 use Illuminate\Foundation\Http\FormRequest;
-
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LoginRequest extends FormRequest
+class StoreNoteCategoryRequest extends FormRequest
 {
     use ResponseAPI;
     /**
@@ -29,10 +28,10 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            "email_or_phone" => "required",
-            "password" => "required"
+            "category_id" => "required"
         ];
     }
+
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors()), 'Failed!'));

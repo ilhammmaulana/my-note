@@ -5,7 +5,7 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\DevController;
 use App\Http\Controllers\API\ForgotPasswordController;
 use App\Http\Controllers\API\NoteController;
-use App\Http\Controllers\NoteCategoryController;
+use App\Http\Controllers\API\NoteCategoryController;
 use App\Mail\ForgotPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,7 +45,7 @@ Route::middleware(['auth.api'])->group(function () {
         Route::get('/favorite', [NoteController::class, 'getFavoriteNote']);
         Route::post('/{id}/favorite', [NoteController::class, 'favoriteNote']);
         Route::post('/{id}/store-image', [NoteController::class, 'storeImageNote']);
-        Route::post('/{idNote}/category', [NoteCategoryController::class, '']);
+        Route::post('/{idNote}/category', [NoteCategoryController::class, 'store']);
         Route::delete('/{imageNoteId}/delete-image', [NoteController::class, 'deleteImageNote']);
     });
     Route::resource('categories', CategoryController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
