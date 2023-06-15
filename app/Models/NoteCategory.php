@@ -12,15 +12,15 @@ class NoteCategory extends Model
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['note_id', 'category_id'];
+    protected $fillable = ['id', 'note_id', 'category_id'];
 
 
     public function note()
     {
-        return $this->belongsTo(Note::class);
+        return $this->belongsTo(Note::class, 'note_id');
     }
     function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasOne(Category::class);
     }
 }

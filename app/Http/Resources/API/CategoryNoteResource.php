@@ -4,7 +4,7 @@ namespace App\Http\Resources\API;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class CategoryNoteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,6 +16,7 @@ class CategoryResource extends JsonResource
     {
         return [
             "id" => $this->id,
+            "note_category_id" => $this->note_category_id,
             "category_name" => $this->category_name,
             "total_notes" => $this->note_category_count,
             "created_at" => $this->created_at->format('Y-m-d H:m:s'),

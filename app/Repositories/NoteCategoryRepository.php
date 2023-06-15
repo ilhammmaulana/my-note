@@ -18,7 +18,6 @@ class NoteCategoryRepository implements NoteCategoryRepositoryInterface
                 "note_id" => $noteId,
                 "category_id" => $categoryId
             ]);
-            return;
         } catch (\Throwable $th) {
             throw $th;
         }

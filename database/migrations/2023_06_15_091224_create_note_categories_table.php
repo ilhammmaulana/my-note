@@ -14,7 +14,7 @@ class CreateNoteCategoriesTable extends Migration
     public function up()
     {
         Schema::create('note_categories', function (Blueprint $table) {
-            $table->uuid('id')->primary()->index();
+            $table->uuid('id')->primary();
             $table->foreignUuid('note_id')->constrained('notes');
             $table->foreignUuid('category_id')->constrained('categories');
             $table->timestamps();

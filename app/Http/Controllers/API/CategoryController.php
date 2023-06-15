@@ -32,7 +32,8 @@ class CategoryController extends ApiController
      */
     public function index()
     {
-        $categories = CategoryResource::collection($this->categoryRepository->getAll($this->guard()->id()));
+        $rawData = $this->categoryRepository->getAll($this->guard()->id());
+        $categories = CategoryResource::collection($rawData);
         return $this->requestSuccessData($categories);
     }
 

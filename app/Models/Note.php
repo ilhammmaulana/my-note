@@ -18,4 +18,10 @@ class Note extends Model
     {
         return $this->hasMany(ImageNote::class);
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'note_categories')
+            ->withPivot('id as note_category_id');
+    }
 }

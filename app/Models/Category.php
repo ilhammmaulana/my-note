@@ -16,13 +16,16 @@ class Category extends Model
     protected $keyType = 'string';
 
 
-    public function notes()
+    public function noteCategory()
     {
-        return $this->hasMany(Note::class, 'category_id');
+        return $this->hasMany(NoteCategory::class, 'category_id');
     }
-
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+    public function notes()
+    {
+        return $this->belongsToMany(Note::class, 'note_categories');
     }
 }
