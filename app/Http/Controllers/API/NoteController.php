@@ -115,7 +115,7 @@ class NoteController extends ApiController
     {
         try {
             $this->noteRepository->deleteNote($id, $this->guard()->id());
-            return $this->requestSuccess('Success!', 204);
+            return $this->requestSuccess();
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
             return $this->requestNotFound('Note not found!');
         } catch (\Throwable $th) {
