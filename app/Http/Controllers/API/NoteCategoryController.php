@@ -4,10 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\DestroyNoteCategoryRequest;
 use App\Http\Requests\API\StoreNoteCategoryRequest;
 use App\Models\Category;
 use App\Models\NoteCategory;
 use App\Repositories\NoteCategoryRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class NoteCategoryController extends ApiController
@@ -38,6 +40,21 @@ class NoteCategoryController extends ApiController
 
             $this->noteCategoryRepository->attachCategoryToNote($idNote, $input['category_id']);
             return $this->requestSuccess();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function destroy($noteCategoryId)
+    {
+        try {
+            $noteCategory = NoteCategory::findOrFail($noteCategoryId);
+            if ($noteCategory->note->created_by !== $this->guard()->id()) {
+                return $this->requestNotFound('Relationship note category not found!');
+            }
+            $noteCategory->delete();
+            return $this->requestSuccess();
+        } catch (ModelNotFoundException $th) {
+            return $this->requestNotFound('Relationship note category not found!');
         } catch (\Throwable $th) {
             throw $th;
         }

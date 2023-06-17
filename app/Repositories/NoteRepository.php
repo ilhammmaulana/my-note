@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Note;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 interface NoteRepositoryInterface
 {
@@ -94,5 +96,23 @@ class NoteRepository  implements NoteRepositoryInterface
     }
     public function attachCategoryToNote($noteId, $categoryId)
     {
+    }
+    public function deleteNoteWithImages($noteId, $userId)
+    {
+        return DB::transaction(function () use ($noteId, $userId) {
+            $note = Note::where('id', $noteId)
+                ->where('created_by', $userId)
+                ->firstOrFail();
+            $images = $note->imagesNote()->get();
+            foreach ($images as $image) {
+                Storage::delete($image->image);
+            }
+
+            $note->imagesNote()->delete();
+
+            $note->delete();
+
+            return true;
+        });
     }
 }

@@ -46,6 +46,7 @@ Route::middleware(['auth.api'])->group(function () {
         Route::post('/{id}/favorite', [NoteController::class, 'favoriteNote']);
         Route::post('/{id}/store-image', [NoteController::class, 'storeImageNote']);
         Route::post('/{idNote}/category', [NoteCategoryController::class, 'store']);
+        Route::delete('/remove-category/{noteCategoryId}', [NoteCategoryController::class, 'destroy']);
         Route::delete('/{imageNoteId}/delete-image', [NoteController::class, 'deleteImageNote']);
     });
     Route::resource('categories', CategoryController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
