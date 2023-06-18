@@ -1,8 +1,5 @@
-body,
-html {
-    height: 100%;
-    overflow: hidden;
-    background-color: rgb(19, 19, 19);
+body {
+    background-color: #F6F1F1;
 }
 
 .container {
@@ -12,9 +9,6 @@ html {
     justify-content: center;
 }
 
-
-.glasess {}
-
 .form-style {
     max-height: 100%;
     min-width: 400px;
@@ -22,7 +16,7 @@ html {
 }
 
 .form-style h3 {
-    color: #fff;
+    color: #19A7CE;
 }
 
 .form-style input {
@@ -33,37 +27,25 @@ html {
 }
 
 .form-style input:focus {
-    border-bottom: 1px solid #007bff;
+    border-bottom: 1px solid #19A7CE;
     box-shadow: none;
     outline: 0;
     background-color: #ebebeb;
-}
-
-.sideline {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: #ccc;
 }
 
 button {
     height: 50px;
 }
 
-.sideline:before,
-.sideline:after {
-    content: '';
-    border-top: 1px solid #ebebeb;
-    margin: 0 20px 0 0;
-    flex: 1 0 20px;
+button.btn-theme-dark {
+    background-color: #146C94;
+    border: 0;
+    outline: none;
+    color: #fff;
+    border-radius: .6rem;
 }
 
-.sideline:after {
-    margin: 0 0 0 20px;
-}
-
-img#image-sidebar {
-    filter: blur(1px) !important;
+.img-fluid {
+    max-width: 100%;
+    height: auto;
 }

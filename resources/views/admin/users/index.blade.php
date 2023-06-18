@@ -43,16 +43,7 @@
                         <label for="phone-create">Phone</label>
                         <input type="text" name="phone" class="form-control" id="phone-create" placeholder="Enter phone user">
                       </div>
-                      <div class="form-group d-flex flex-column">
-                        <label for="school_id-create">School</label>
-                        <select name="school_id" autocomplete required id="school_id-create">
-                          <option selected disabled>Select school</option>
-                          @foreach ($schools as $school)
-                          <option value="{{ $school->id }}">{{ $school->school_name }}</option>
-                          @endforeach
-                        </select>
-                      </div>
-                  </div>
+                    </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Create</button>
@@ -70,8 +61,6 @@
                     <th scope="col">Photo</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Total Likes</th>
-                    <th scope="col">School</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -85,11 +74,6 @@
                             </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>
-                                <i class="fa-solid fa-heart @if($user->total_likes > 0) text-danger @else text-secondary @endif fs-5"></i>
-                            {{
-                            $user->total_likes }}</td>
-                            <td>{{ $user->school->school_name }}</td>
                             <td class="d-flex gap-2" data-user-id="{{ $user->id }}" data-user-email="{{ $user->email }}" data-user-name="{{ $user->name }}" data-user-photo="{{ $user->photo !== null ? asset($user->photo) : asset('assets/images/default.jpg') }}" data-user-banner_photo="{{ $user->banner_photo !== null ? asset($user->banner_photo) : asset('assets/images/default.jpg') }}" data-user-phone="{{ $user->phone }}" data-user-school_id="{{ $user->school_id }}">
                                 <button class="btn btn-danger btnDelete" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     <i class="fa-solid fa-trash"></i>
@@ -141,14 +125,7 @@
                                   <label for="phone">Phone</label>
                                   <input type="text" name="phone" class="form-control" id="phone">
                                 </div>
-                                <div class="form-group d-flex flex-column">
-                                  <label for="school_id">School</label>
-                                  <select name="school_id" autocomplete id="school_id">
-                                    @foreach ($schools as $school)
-                                    <option value="{{ $school->id }}">{{ $school->school_name }}</option>
-                                    @endforeach
-                                  </select>
-                                </div>
+                            
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

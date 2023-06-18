@@ -21,7 +21,30 @@
         {{ $html }}
     </div>
     <script src="{{ asset('assets/js/jquery.js') }}"></script>
-   
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.js') }}"></script>
+    <script>
+    $(document).ready(function(){
+    $('#alert').animate({ marginTop: -100 }, 200).removeClass('d-none').hide().slideDown(10, function() {
+       $('#alert').animate({ marginTop: 10 }, 250);
+    });
+    setTimeout(() => {
+        $('#alert').animate({ marginTop: '-200px'}, 250);
+    }, 2500);
+
+   $(document).on('click', function(event) {
+       var $target = $(event.target);
+       if (!$target.closest('#form-login').length) {
+           $('#animation-login-logo, #animation-login').addClass('hidden');
+       }
+       });
+
+       $('#email_or_phone, #password, #button-submit').on('focus', function() {
+       $('#animation-login-logo, #animation-login').removeClass('hidden');
+       }).on('blur', function() {
+       $('#animation-login-logo, #animation-login').addClass('hidden');
+   });
+})
+    </script>
 </body>
 
 </html>

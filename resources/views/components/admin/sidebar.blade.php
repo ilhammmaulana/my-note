@@ -2,7 +2,7 @@
 <nav id="sidebar">
   <div class="d-flex logos align-items-center justify-content-center">
     <img src="{{ asset('assets/images/logos.png') }}" alt="" srcset="">
-    <h4 class="fw-bold text-theme mt-3 ms-2 text-poppins">KelasKu</h4>
+    <h4 class="fw-bold text-theme mt-3 ms-2 text-poppins">Note App</h4>
   </div>
   <a class="sidebar-item {{ Request::is('users*') ? ' active' : '' }}" href="{{ url('users') }}" style="margin-top: 1.5rem">
     <i class="fa-solid fa-users"></i>
