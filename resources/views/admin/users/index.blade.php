@@ -1,6 +1,17 @@
 <x-admin.layout>
-    <x-slot name="title">Manage Friend List</x-slot>
+    <x-slot name="title">Manage users</x-slot>
     <x-slot name="html">
+        <div class="mx-3 mb-4">
+          <div class="bg-white card-user d-flex gap-4 justify-content-center">
+            <div class="img d-flex">
+              <img src="{{ asset('assets/images/default.jpg') }}" width="50" class="rounded-circle m-auto" alt="">
+            </div>
+            <div class="d-flex flex-column align-baseline pt-2">
+                <h6 class="fw-bold">Total User</h6>
+                <p class="text-green fw-bold" >{{ $total_user }} User</p>
+            </div>
+          </div>
+        </div>
         <div class="box-white table-responsive mx-3">
             <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#createUser">Create User +</button>
             {{-- Modal --}}
@@ -13,18 +24,14 @@
                   </div>
                   <div class="modal-body">
                     <div class="d-flex py-4"id="banner_photo_create" style="background-size: cover; background-position: center center;">
-                      <label for="file-input-banner-create" class="position-absolute btn-primary fw-bold text-white" style="right: 1rem; top: 10.9rem; font-size: .6rem">
-                        Uploud Banner
-                      </label>
                       <img src="" width="150px" height="150px" alt="" class="mx-auto border rounded-circle position-relative" style="top: 5rem" id="photo_create">
                     </div>
                     <form class="mt-5" id="form-create" action="{{ url('users') }}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <label for="file-input-create" class="custom-file-upload position-absolute" style="top: 14.2rem; right:12rem;">
-                        <img src="{{ asset('assets/images/icons/camera.svg') }}" class="px-2 py-2 btn-primary text-white rounded-circle fs-5 border-4">
+                        <img src="{{ asset('assets/icons/camera.svg') }}" class="px-2 py-2 btn-primary text-white rounded-circle fs-5 border-4">
                       </label>
                       <input type="file" id="file-input-create" class="opacity-0" name="photo">
-                      <input type="file"id="file-input-banner-create" name="banner_photo_" class="opacity-0">
 
                       <div class="form-group">
                         <label for="name-create">Name</label>
@@ -98,20 +105,16 @@
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                              <div class="d-flex py-4"id="banner_photo" style="background-size: cover; background-position: center center;">
-                                <label for="file-input-banner" class="position-absolute btn-primary fw-bold text-white" style="right: 1rem; top: 10.9rem; font-size: .6rem">
-                                  Change banner
-                                </label>
+                              <div class="d-flex py-4"id="banner_photo">
                                 <img src="" width="150px" height="150px" alt="" class="mx-auto border rounded-circle position-relative" style="top: 5rem" id="photo">
                               </div>
                               <form class="mt-5" id="form-edit" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
                                 <label for="file-input" class="custom-file-upload position-absolute" style="top: 14.2rem; right:12rem;">
-                                  <img src="{{ asset('assets/images/icons/camera.svg') }}" class="px-2 py-2 btn-primary text-white rounded-circle fs-5">
+                                  <img src="{{ asset('assets/icons/camera.svg') }}" class="px-2 py-2 btn-primary text-white rounded-circle fs-5">
                                 </label>
                                 <input type="file" id="file-input" class="opacity-0" name="photo">
-                                <input type="file"id="file-input-banner" name="banner_photo" class="opacity-0">
 
                                 <div class="form-group">
                                   <label for="name">Name</label>
@@ -223,19 +226,8 @@
               };
               reader.readAsDataURL(file);
             }
-            const changeBanner = (event)=> {
-              const file = event.target.files[0];
-              const allowedTypes = ['image/jpeg', 'image/jpg'];
-              if (!allowedTypes.includes(file.type)) {
-                alert('Please select a JPEG or JPG image file.');
-                return;
-              }
-              const reader = new FileReader();
-              reader.onload = (e) => {
-                $('#banner_photo').css('background-image', `url(${e.target.result})`);
-              };
-              reader.readAsDataURL(file);
-            } 
+    
+
 
             const changePhotoCreate =  (event) =>  {
               const file = event.target.files[0];
@@ -285,7 +277,6 @@
                 const phone = $(component).data('user-phone');
                 const photo = $(component).data('user-photo');
                 const schoolId = $(component).data('user-school_id');
-                const banner_photo = $(component).data('user-banner_photo');
                 const idUser = $(component).data('user-id');
                 let baseUrl = `${idUser}`;
                 const url = "{{ url('users') }}" + '/' + baseUrl  ;
@@ -298,13 +289,11 @@
                   $('#photo').attr('src', photo);
                   $('#photo').attr('src', photo);
                   $('#form-edit').attr('action', url)
-                  $('#banner_photo').css('background-image', 'url(' + banner_photo + ')');
               });
               $('#file-input-create').on('change', changePhotoCreate)
               $('#file-input-banner-create').on('change', changeBannerCreate)
 
               $('#file-input').on('change', changePhoto)
-              $('#file-input-banner').on('change', changeBanner)
             });
        
             $("#password").val(randomPassword(9))

@@ -4,9 +4,9 @@
     --fs-title: 1rem;
     --fs-normal: .8rem;
     --fs-small: .7rem;
-    --theme-color: #485AB9;
+    --theme-color: #000ecb;
     --theme-color-2: #000ecb;
-
+    --green: #17594A;
 }
 
 
@@ -238,6 +238,10 @@ header.header-dashboard #user-menu button {
     color: var(--theme-color);
 }
 
+.text-green {
+    color: var(--green);
+}
+
 .card-hero {
     max-width: 400px;
 }
@@ -267,12 +271,12 @@ header.header-dashboard #user-menu button {
 }
 
 .pagination .page-item .page-link {
-    color: #485AB9 !important;
+    color: var(--theme-color) !important;
 
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #485AB9 !important;
+    background-color: var(--theme-color) !important;
 }
 
 .pagination .page-item.active .page-link {

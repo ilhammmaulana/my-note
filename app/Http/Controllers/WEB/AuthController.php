@@ -27,9 +27,11 @@ class AuthController extends Controller
             return redirect('/users')->with('success', 'Successfully logged in to dashboard');
         }
     }
-    public function logout()
+    public function logout(Request $request)
     {
         auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/auth/login');
     }
 }

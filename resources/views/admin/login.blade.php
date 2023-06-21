@@ -9,15 +9,16 @@
             </div>
               <div class="col-md-6 d-flex">
                 <div class="form-style m-auto">
-                  <h3 class="pb-3 text-start">Login Form</h3>
+                  <h3 class="text-start">Login</h3>
+                  <p class="pb-3 text-muted" style="font-size: .8rem">Login to managing users</p>
                   <form method="POST" action="{{ route('login') }}">
                     @csrf
                     @method('POST')
                     <div class="form-group pb-3">    
-                      <input type="email" name="email" placeholder="Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">   
+                      <input type="email" name="email" value="{{ old('email') }}"placeholder="Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">   
                     </div>
                     <div class="form-group pb-3">   
-                      <input type="password" name="password" placeholder="Password" class="form-control" id="exampleInputPassword1">
+                      <input type="password" name="password" value="{{ old('password') }}" placeholder="Password" class="form-control" id="exampleInputPassword1">
                     </div>                           
                     <div class="pb-2">
                       <button type="submit" class="btn-theme-dark w-100 font-weight-bold mt-2">Submit</button>

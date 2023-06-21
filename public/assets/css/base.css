@@ -81,8 +81,8 @@
 }
 
 .btn-primary {
-    background-color: #485AB9;
-    border-color: #485AB9;
+    background-color: var(--theme-color);
+    border-color: var(--theme-color);
     font-size: .9rem;
     font-weight: 600;
     padding: 8px 16px;
@@ -96,8 +96,8 @@
 }
 
 .btn-primary:active {
-    background-color: #485AB9 !important;
-    border-color: #485AB9 !important;
+    background-color: var(--theme-color) !important;
+    border-color: var(--theme-color) !important;
 }
 
 .form-group label {
@@ -225,11 +225,11 @@
 .box-white {
     background-color: #fff;
     padding: 1.2rem 1.4rem;
-    border-radius: .5rem;
+    border-radius: .2rem;
 }
 
 .text-theme {
-    color: #485AB9;
+    color: var(--theme-color);
 }
 
 .radius {
@@ -347,6 +347,19 @@
 .down-up.delay-4.show {
     transition-delay: .7s;
     transform: translateY(0px);
+}
+
+.card-user {
+    width: 225px;
+    height: 75px;
+    border-radius: .5rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 3px;
+    padding: .5rem .8rem;
+}
+
+.card-user>div>p {
+    margin-top: -7px;
+    font-size: .9rem;
 }
 
 @media (max-width: 768px) {

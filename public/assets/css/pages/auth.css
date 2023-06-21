@@ -49,3 +49,12 @@ button.btn-theme-dark {
     max-width: 100%;
     height: auto;
 }
+
+
+
+@media (max-width: 928px) {
+    .form-style {
+        padding: 4rem 2rem !important;
+    }
+
+}
