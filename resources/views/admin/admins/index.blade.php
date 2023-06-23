@@ -8,25 +8,25 @@
           </div>
           <div class="d-flex flex-column align-baseline pt-2">
               <h6 class="fw-bold">Total Admin</h6>
-              <p class="text-green fw-bold" >{{ $total_user }} User</p>
+              <p class="text-green f  w-bold" >{{ $total_user }} User</p>
           </div>
         </div>
-      </div>
+      </div>  
       <div class="box-white table-responsive mx-3">
-          <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#createUser">Create User +</button>
+          <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#createUser">Create Admin +</button>
           {{-- Modal --}}
           <div class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-labelledby="createUserLabel">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title fw-bold" id="createUserLabel">Create Friend List</h4>
+                  <h4 class="modal-title fw-bold" id="createUserLabel">Create Admin</h4>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <div class="d-flex py-4"id="banner_photo_create" style="background-size: cover; background-position: center center;">
                     <img src="" width="150px" height="150px" alt="" class="mx-auto border rounded-circle position-relative" style="top: 5rem" id="photo_create">
                   </div>
-                  <form class="mt-5" id="form-create" action="{{ url('users') }}" method="POST" enctype="multipart/form-data">
+                  <form class="mt-5" id="form-create" action="{{ url('admins') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <label for="file-input-create" class="custom-file-upload position-absolute" style="top: 14.2rem; right:12rem;">
                       <img src="{{ asset('assets/icons/camera.svg') }}" class="px-2 py-2 btn-primary text-white rounded-circle fs-5 border-4">
@@ -88,11 +88,6 @@
                               <button class="btn btn-primary btnEdit" data-bs-toggle="modal" data-bs-target="#myModal">
                                   <i class="fa-solid fa-pen-to-square"></i>
                               </button>
-                              <a href="{{ url('users/'.$user->id) }}">
-                                <button type="button" class="btn btn-info text-white fw-bold">
-                                  <i class="fa-solid fa-ellipsis"></i>
-                                  </button>
-                              </a>
                           </td>
 
                       </tr>
@@ -165,7 +160,7 @@
             <ul class="pagination">
               @if($users->currentPage() > 1)
                   <li class="page-item">
-                      <a class="page-link" href="{{ url('users?page='.($users->currentPage() - 1)) }}" tabindex="-1">Previous</a>
+                      <a class="page-link" href="{{ url('admins?page='.($users->currentPage() - 1)) }}" tabindex="-1">Previous</a>
                   </li>
               @else
                   <li class="page-item disabled">
@@ -180,14 +175,14 @@
                       </li>
                   @else
                       <li class="page-item">
-                          <a class="page-link" href="{{ url('users?page='.($i + 1)) }}">{{ $i + 1 }}</a>
+                          <a class="page-link" href="{{ url('admins?page='.($i + 1)) }}">{{ $i + 1 }}</a>
                       </li>
                   @endif
               @endfor
           
               @if($users->currentPage() < $users->lastPage())
                   <li class="page-item">
-                      <a class="page-link" href="{{ url('users?page='.($users->currentPage() + 1)) }}">Next</a>
+                      <a class="page-link" href="{{ url('admins?page='.($users->currentPage() + 1)) }}">Next</a>
                   </li>
               @else
                   <li class="page-item disabled">
@@ -265,7 +260,7 @@
             const name = $(component).data('user-name');
             let baseUrl = `${idUser}`;
             $('#name-delete').text(name)
-            const url = "{{ url('users') }}" + '/' + baseUrl;
+            const url = "{{ url('admins') }}" + '/' + baseUrl;
             $('#form-delete').attr('action', url)
 
           });
@@ -279,7 +274,7 @@
               const schoolId = $(component).data('user-school_id');
               const idUser = $(component).data('user-id');
               let baseUrl = `${idUser}`;
-              const url = "{{ url('users') }}" + '/' + baseUrl  ;
+              const url = "{{ url('admins') }}" + '/' + baseUrl  ;
               const selectedOption = $('#school_id option[value="' + schoolId + '"]');
               $('#school_id option:selected').removeAttr('selected');
               selectedOption.attr('selected', 'true')

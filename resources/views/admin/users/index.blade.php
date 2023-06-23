@@ -88,11 +88,7 @@
                                 <button class="btn btn-primary btnEdit" data-bs-toggle="modal" data-bs-target="#myModal">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
-                                <a href="{{ url('users/'.$user->id) }}">
-                                  <button type="button" class="btn btn-info text-white fw-bold">
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                    </button>
-                                </a>
+                              
                             </td>
 
                         </tr>

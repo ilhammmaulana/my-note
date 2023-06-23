@@ -9,12 +9,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\useUUID;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Spatie\Permission\Traits\HasRoles;
+
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, SoftDeletes, useUUID, CanResetPassword;
+
+    use HasRoles, HasFactory, Notifiable, SoftDeletes, useUUID, CanResetPassword;
     protected $table = 'users';
-    protected $fillable = ['name', 'email', 'phone', 'password', 'photo'];
+    protected $fillable = ['name', 'email', 'phone', 'password', 'photo', 'role_id'];
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';

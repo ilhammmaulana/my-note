@@ -26,7 +26,7 @@ class AuthController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginRequest $loginRequest)
+    public function lpogin(LoginRequest $loginRequest)
     {
         $loginType = filter_var($loginRequest->input('email_or_phone'), FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
         $loginRequest->merge([

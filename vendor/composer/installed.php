@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '510cc81a390d99130e7e43144e34247173dd5ce6',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -440,12 +440,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '510cc81a390d99130e7e43144e34247173dd5ce6',
     ),
     'laravel/serializable-closure' => 
     array (
@@ -1005,6 +1005,15 @@
       array (
       ),
       'reference' => 'c6c1022351a901512170118436c764e473f6de8c',
+    ),
+    'spatie/laravel-permission' => 
+    array (
+      'pretty_version' => '5.10.1',
+      'version' => '5.10.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd08b3ffc5870cce4a47a39f22174947b33c191ae',
     ),
     'swiftmailer/swiftmailer' => 
     array (

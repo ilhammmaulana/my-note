@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     "prefix" => "auth",
-    "guard" => "guest"
+    "middleware" => 'guest'
 ], function () {
     Route::get('/login', [AuthController::class, 'viewLogin']);
     Route::post('/login', [AuthController::class, 'login'])->name('login');
