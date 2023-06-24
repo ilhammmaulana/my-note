@@ -8,10 +8,12 @@
     <p class="my-auto">Manage users</p>
   </a>
   {{-- Belum kelar --}}
+  @role('super_admin')
   <a class="sidebar-item{{ Request::is('admins*') ? ' active' : '' }}" href="{{ url('admins') }}">
     <i class="fa-solid fa-user"></i>
     <p class="my-auto">Admins</p>
   </a>
+  @endrole
 
 </nav>
 

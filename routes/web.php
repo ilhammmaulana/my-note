@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\WEB\AdminController;
 use App\Http\Controllers\WEB\AuthController;
+use App\Http\Controllers\WEB\ProfileController;
 use App\Http\Controllers\WEB\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +18,9 @@ Route::group([
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::resource('profile', ProfileController::class)->only('index');
     Route::resource('users', UserController::class);
-    Route::resource('admins', AdminController::class);
+    Route::resource('admins', AdminController::class)->only('show', 'index', 'store', 'destroy', 'update')->middleware('role:super_admin');
     Route::delete('auth/logout', [AuthController::class, 'logout'])->name('logout');
 });
 

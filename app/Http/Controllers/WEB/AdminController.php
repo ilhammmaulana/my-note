@@ -28,8 +28,8 @@ class AdminController extends Controller
     public function index()
     {
         return view('admin.admins.index', [
-            "users" => $this->userRepository->getUser(1, auth()->id()),
-            "total_user" => $this->userRepository->countUserByRole(1)
+            "users" => $this->userRepository->getUser('admin', auth()->id()),
+            "total_user" => $this->userRepository->countUserByRole('admin')
         ]);
     }
 
@@ -55,13 +55,11 @@ class AdminController extends Controller
             $input = $createUserRequest->only('name', 'email', 'phone', 'password');
             $photo = $createUserRequest->file('photo');
             $input['password'] = bcrypt($input['password']);
-            $input['role_id'] = 1;
-
             if ($photo) {
                 $path = Storage::disk('public')->put('images/users', $photo);
                 $input['photo'] = 'public/' . $path;
             }
-            $this->userRepository->register($input);
+            $this->userRepository->register($input)->assignRole('admin');
             return redirect('admins')->with('success', 'Success create user friend_list');
         } catch (\Illuminate\Database\QueryException $errors) {
             if ($errors->errorInfo[1] === 1062) {

@@ -26,7 +26,7 @@ class AuthController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function lpogin(LoginRequest $loginRequest)
+    public function login(LoginRequest $loginRequest)
     {
         $loginType = filter_var($loginRequest->input('email_or_phone'), FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
         $loginRequest->merge([
@@ -111,7 +111,7 @@ class AuthController extends ApiController
             $input = $regiesterRequest->only('name', 'email', 'phone', 'password', 'confirm_password');
             $input['password'] = bcrypt($input['password']);
             unset($input['confirm_password']);
-            User::create($input);
+            User::create($input)->assignRole('user');
             return $this->requestSuccess('Success!', 201);
         } catch (\Illuminate\Database\QueryException $errors) {
             if ($errors->errorInfo[1] === 1062) {

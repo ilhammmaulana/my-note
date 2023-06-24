@@ -28,8 +28,8 @@ class UserController extends Controller
     public function index()
     {
         return view('admin.users.index', [
-            "users" => $this->userRepository->getUser(2, auth()->id()),
-            "total_user" => $this->userRepository->countUserByRole(2)
+            "users" => $this->userRepository->getUser('user', auth()->id()),
+            "total_user" => $this->userRepository->countUserByRole('user')
         ]);
     }
 
@@ -60,7 +60,7 @@ class UserController extends Controller
                 $path = Storage::disk('public')->put('images/users', $photo);
                 $input['photo'] = 'public/' . $path;
             }
-            $this->userRepository->register($input);
+            $this->userRepository->register($input)->assignRole('user');
             return redirect('users')->with('success', 'Success create user friend_list');
         } catch (\Illuminate\Database\QueryException $errors) {
             if ($errors->errorInfo[1] === 1062) {

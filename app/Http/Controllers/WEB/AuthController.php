@@ -20,11 +20,12 @@ class AuthController extends Controller
             return redirect()->back()->with('failed', 'Failed! Credentials wrong')->withInput();
         }
         $user = User::find(auth()->id());
-        if ($user->role->id === 2) {
+
+        if (!$user->hasRole(['admin', 'super_admin'])) {
             auth()->logout();
-            return redirect('auth/login')->with('failed', 'Login Failed! You not have permission to access the dashboard')->withInput();
+            return redirect('auth/login')->with('failed', 'Login Failed! You do not have permission to access the dashboard')->withInput();
         } else {
-            return redirect('/users')->with('success', 'Successfully logged in to dashboard');
+            return redirect('/users')->with('success', 'Successfully logged in to the dashboard');
         }
     }
     public function logout(Request $request)

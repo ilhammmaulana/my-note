@@ -4,26 +4,43 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Error;
+use Spatie\Permission\Models\Role;
 
 interface UserRepositoryInterface
 {
     public function getUser($role_id);
     public function countUserByRole($role_id);
     public function register($data);
+    public function getOne($id);
 }
 
 
 class UserRepository
 {
-    public function getUser($role_id, $excludeUser)
+    public function getUser($roleName, $excludeUser)
     {
-        $data = User::where('role_id', $role_id)->where('id', '!=', $excludeUser)->latest()->paginate(10);
+        $role = Role::where('name', $roleName)->first();
+
+        if (!$role) {
+            return null;
+        }
+
+        $data = $role->users()
+            ->where('id', '!=', $excludeUser)
+            ->latest()
+            ->paginate(10);
+
         return $data;
     }
-    public function countUserByRole($role_id)
+    public function countUserByRole($roleName)
     {
-        $data = User::where('role_id', $role_id)->count();
-        return $data;
+        $role = Role::where('name', $roleName)->first();
+
+        if (!$role) {
+            return null;
+        }
+        $count = $role->users()->count();
+        return $count;
     }
     public function register($data)
     {
@@ -40,6 +57,17 @@ class UserRepository
             $user->delete();
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
             throw new Error('User not found', 404);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function getOne($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            return $user;
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            throw new \Exception('User not found');
         } catch (\Throwable $th) {
             throw $th;
         }

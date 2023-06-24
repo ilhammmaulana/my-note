@@ -17,12 +17,10 @@
                         @csrf
                         @method('PATCH')
                         <input type="file" id="photo-input" class="opacity-0" name="photo">
-                        <input type="file" id="banner_photo_input" name="banner_photo" class="opacity-0">
                         <div class="d-flex gap-1">
                             <label for="photo-input" class="btn btn-primary" >
-                                <img src="{{ asset('assets/images/icons/camera.svg') }}" alt="">
+                                <img src="{{ asset('assets/icons/camera.svg') }}" alt="">
                             </label>
-                            <label class="btn btn-primary" for="banner_photo_input">Change Banner</label>
                         </div>
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -37,15 +35,7 @@
                           <label for="phone">Phone</label>
                           <input type="text" name="phone" class="form-control" value="{{ $user->phone }}" id="phone" placeholder="Enter phone user">
                         </div>
-                        <div class="form-group d-flex flex-column">
-                          <label for="school_id">School</label>
-                          <select name="school_id" autocomplete required id="school_id">
-                            <option disabled>Select school</option>
-                            @foreach ($schools as $school)
-                                <option value="{{ $school->id }}" @if($user->school_id === $school->id) selected @endif>{{ $school->school_name }}</option>
-                            @endforeach
-                          </select>
-                        </div>
+                    
                         <button class="btn btn-primary mt-2">Edit user</button>
                         <form>
                 </div>
@@ -87,7 +77,6 @@
               reader.readAsDataURL(file);
             }
             $('#photo-input').on('change', changePhoto)
-            $('#banner_photo_input').on('change', changeBanner)
 
             });
             
