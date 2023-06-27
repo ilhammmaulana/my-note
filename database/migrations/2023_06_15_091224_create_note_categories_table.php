@@ -15,8 +15,8 @@ class CreateNoteCategoriesTable extends Migration
     {
         Schema::create('note_categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('note_id')->constrained('notes');
-            $table->foreignUuid('category_id')->constrained('categories');
+            $table->foreignUuid('note_id')->constrained('notes')->onDelete('cascade');
+            $table->foreignUuid('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

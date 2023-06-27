@@ -15,7 +15,7 @@ class CreateImageNotesTable extends Migration
     {
         Schema::create('image_notes', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
-            $table->foreignUuid('note_id')->constrained('notes');
+            $table->foreignUuid('note_id')->constrained('notes')->onDelete('cascade');
             $table->string('image');
             $table->timestamps();
         });
