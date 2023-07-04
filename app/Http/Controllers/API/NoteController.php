@@ -40,10 +40,10 @@ class NoteController extends ApiController
     {
         $rawData = $this->noteRepository->getNotes($this->guard()->id());
         $data = NoteResource::collection($rawData);
-        $collection = $data->sortByDesc(function ($item) {
-            return $item->favorite ? 1 : 0;
-        })->values();
-        return $this->requestSuccessData($collection);
+        // $collection = $data->sortByDesc(function ($item) {
+        //     return $item->favorite ? 1 : 0;
+        // })->values();
+        return $this->requestSuccessData($data);
     }
 
 
@@ -57,13 +57,13 @@ class NoteController extends ApiController
     {
         try {
             $input = $createNoteRequest->only('title', 'body', 'category_id');
-            if ($input['category_id']) {
+            if (isset($input['category_id'])) {
                 $category = Category::where('created_by', $this->guard()->id())
                     ->findOrFail($input['category_id']);
                 $categoryIdExist = true;
             }
             $createdNote = $this->noteRepository->createNote($this->guard()->id(), $input);
-            if ($categoryIdExist) {
+            if (isset($categoryIdExist)) {
                 $this->noteRepository->attachCategoryToNote($createdNote->id, $input['category_id']);
             }
             return $this->requestSuccess('Success!', 201);
