@@ -24,7 +24,7 @@ class NoteRepository  implements NoteRepositoryInterface
 {
     public function getNotes($idUser)
     {
-        $notes = Note::with('categories', 'imagesNote')->where('created_by', $idUser)->latest()->get();
+        $notes = Note::with('categories', 'imagesNote')->where('created_by', $idUser)->latest('updated_at')->get();
         return $notes;
     }
     public function createNote($idUser, $data)
