@@ -18,8 +18,8 @@ class CategoryResource extends JsonResource
             "id" => $this->id,
             "category_name" => $this->category_name,
             "total_notes" => $this->note_category_count,
-            "created_at" => $this->created_at->format('Y-m-d H:m:s'),
-            "updated_at" => $this->updated_at->format('Y-m-d H:m:s')
+            "created_at" => $this->created_at->format('Y-m-d H:i:s'),
+            "updated_at" => $this->updated_at->format('Y-m-d H:i:s')
         ];
     }
 }

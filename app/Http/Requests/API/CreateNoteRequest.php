@@ -30,7 +30,7 @@ class CreateNoteRequest extends FormRequest
         return [
             "title" => "max:5200",
             "body" => "max:5200",
-            "category_id" => "string|exists:categories,id"
+            "category_id" => "string"
         ];
     }
     protected function failedValidation(Validator $validator)

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Note;
+use App\Models\NoteCategory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +32,6 @@ class NoteRepository  implements NoteRepositoryInterface
         return Note::create([
             "title" => isset($data["title"]) ? $data["title"] : null,
             "body" => isset($data["body"]) ? $data["body"] : null,
-            "category_id" => isset($data['category_id']) ?  $data['category_id'] : null,
             "created_by" => $idUser,
         ]);
     }
@@ -96,6 +96,10 @@ class NoteRepository  implements NoteRepositoryInterface
     }
     public function attachCategoryToNote($noteId, $categoryId)
     {
+        return NoteCategory::create([
+            'note_id' => $noteId,
+            'category_id' => $categoryId
+        ]);
     }
     public function deleteNoteWithImages($noteId, $userId)
     {

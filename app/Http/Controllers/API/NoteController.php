@@ -9,6 +9,7 @@ use App\Http\Requests\API\StoreNoteImageRequest;
 use App\Http\Requests\API\UpdateNoteRequest;
 use App\Http\Resources\API\NoteResource;
 use App\Http\Resources\ImageNoteResource;
+use App\Models\Category;
 use App\Models\ImageNote;
 use App\Models\Note;
 use Illuminate\Support\Str;
@@ -54,9 +55,23 @@ class NoteController extends ApiController
      */
     public function store(CreateNoteRequest $createNoteRequest)
     {
-        $input = $createNoteRequest->only('title', 'body', 'category_id');
-        $this->noteRepository->createNote($this->guard()->id(), $input);
-        return $this->requestSuccess('Success!', 201);
+        try {
+            $input = $createNoteRequest->only('title', 'body', 'category_id');
+            if ($input['category_id']) {
+                $category = Category::where('created_by', $this->guard()->id())
+                    ->findOrFail($input['category_id']);
+                $categoryIdExist = true;
+            }
+            $createdNote = $this->noteRepository->createNote($this->guard()->id(), $input);
+            if ($categoryIdExist) {
+                $this->noteRepository->attachCategoryToNote($createdNote->id, $input['category_id']);
+            }
+            return $this->requestSuccess('Success!', 201);
+        } catch (ModelNotFoundException $e) {
+            return $this->requestNotFound('Category not found');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**

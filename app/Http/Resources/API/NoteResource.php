@@ -28,8 +28,8 @@ class NoteResource extends JsonResource
             "images" => ImageNoteResource::collection($this->imagesNote),
             "favorite" => $this->favorite == 1 || $this->favorite == true ? true : false,
             "updated_at_format" => $formattedDate,
-            "updated_at" => $this->updated_at->format('Y-m-d H:m:s'),
-            "created_at" => $this->created_at->format('Y-m-d H:m:s')
+            "updated_at" => $this->updated_at->format('Y-m-d H:i:s'),
+            "created_at" => $this->created_at->format('Y-m-d H:i:s')
         ];
     }
 }
