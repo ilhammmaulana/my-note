@@ -62,11 +62,11 @@ class NoteController extends ApiController
                     ->findOrFail($input['category_id']);
                 $categoryIdExist = true;
             }
-            $createdNote = $this->noteRepository->createNote($this->guard()->id(), $input);
+            $createdNote = new NoteResource($this->noteRepository->createNote($this->guard()->id(), $input));
             if (isset($categoryIdExist)) {
                 $this->noteRepository->attachCategoryToNote($createdNote->id, $input['category_id']);
             }
-            return $this->requestSuccess('Success!', 201);
+            return $this->requestSuccessData($createdNote, 201);
         } catch (ModelNotFoundException $e) {
             return $this->requestNotFound('Category not found');
         } catch (\Throwable $th) {
